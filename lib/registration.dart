@@ -1,40 +1,22 @@
 import 'package:flutter/material.dart';
 import 'homePage.dart';
-import 'registration.dart';
+import 'main.dart';
 
-void main() {
-  runApp(const MyApp());
-}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Login Demo Page',
-      theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
-      ),
-      home: const Login(title: 'Login Demo Page'),
-    );
-  }
-}
-
-class Login extends StatefulWidget {
-  const Login({super.key, required this.title});
+class registration extends StatefulWidget {
+  const registration({super.key, required this.title});
 
   final String title;
 
   @override
-  State<Login> createState() => _LoginState();
+  State<registration> createState() => _registrationState();
 }
 
-class _LoginState extends State<Login> {
-  final _formKey = GlobalKey<FormState>();
+class _registrationState extends State<registration> {
+  final _formKeyRegistration = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordConfirmController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +25,15 @@ class _LoginState extends State<Login> {
         title: Text(widget.title),
       ),
       body: Form(
-        key: _formKey,
+        key: _formKeyRegistration,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                 child: TextFormField(
                   controller: emailController,
                   decoration: const InputDecoration(
@@ -66,7 +48,7 @@ class _LoginState extends State<Login> {
               ),
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                 child: TextFormField(
                   controller: passwordController,
                   obscureText: true,
@@ -82,12 +64,30 @@ class _LoginState extends State<Login> {
               ),
               Padding(
                 padding:
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                child: TextFormField(
+                  controller: passwordConfirmController,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(), labelText: "Confirm Password"),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please re-enter your password';
+                    }
+                    if (value != passwordController.text){
+                      return 'Password does not match';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding:
                 const EdgeInsets.symmetric(horizontal: 8, vertical: 16.0),
                 child: Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // can put some more login logic here
+                      if (_formKeyRegistration.currentState!.validate()) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -101,24 +101,24 @@ class _LoginState extends State<Login> {
                         );
                       }
                     },
-                    child: const Text('Submit'),
+                    child: const Text('Register'),
                   ),
                 ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text('Does not have account?'),
+                  const Text('Already have an account?'),
                   TextButton(
                     child: const Text(
-                      'Sign in',
+                      'login here',
                       style: TextStyle(fontSize: 15),
                     ),
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const registration(title: 'Registration Page')),
+                            builder: (context) => const Login(title: 'Login Demo Page')),
                       );
                     },
                   )
