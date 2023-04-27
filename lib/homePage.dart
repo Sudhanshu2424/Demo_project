@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'baseClient.dart';
 import 'user.dart';
 import 'driverProtocols.dart';
+import 'postMessagedisplay.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -86,6 +87,17 @@ class HomePage extends StatelessWidget {
                   debugPrint('successful:');
                   var users = json.decode(response);
                   debugPrint('Data received: $users');
+
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PostMessageDisplay(
+                          data: users["data"],
+                        )),
+                  );
+
+
                 },
                 child: const Text("POST"),
               ),
