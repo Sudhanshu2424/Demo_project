@@ -1,11 +1,6 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
-
-import 'user.dart';
 
 import 'package:http/http.dart' as http;
-
-const String baseUrl = 'https://631c37911b470e0e12fcdd0b.mockapi.io/api';
 
 class BaseClient {
   var client = http.Client();

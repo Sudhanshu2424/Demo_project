@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'base_client.dart';
+import 'baseClient.dart';
 import 'user.dart';
+import 'driverProtocols.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -36,11 +37,30 @@ class HomePage extends StatelessWidget {
                   var response = await BaseClient().get('/users').catchError((err) {
                     debugPrint('Error in server response! Error : $err');
                   });
-                  if (response == null) return;
-                  debugPrint('successful:');
+
+                  if (response == null){
+                    debugPrint('Data not received form server');
+                    return;
+                  }
 
                   var users = json.decode(response);
-                  debugPrint('Data received: $users');
+                  if(users["code"]!="200"){
+                    debugPrint('Data not received\nResponse status ${users["status"]}\nResponse message ${users["message"]}');
+                  }
+                  else {
+                    debugPrint('Successfully data received');
+                  }
+
+                  // debugPrint('Data received: $data');
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DriverProtocols(
+                          data: users["data"],
+                        )),
+                  );
+
                 },
                 child: const Text("GET"),
               ),
