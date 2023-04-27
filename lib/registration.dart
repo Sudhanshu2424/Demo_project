@@ -13,6 +13,8 @@ class registration extends StatefulWidget {
 }
 
 class _registrationState extends State<registration> {
+  RegExp passwordPattern = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.+?[@!#])');
+  RegExp emailPattern = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
   final _formKeyRegistration = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -27,13 +29,13 @@ class _registrationState extends State<registration> {
       body: Form(
         key: _formKeyRegistration,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 child: TextFormField(
                   controller: emailController,
                   decoration: const InputDecoration(
@@ -42,13 +44,16 @@ class _registrationState extends State<registration> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your email';
                     }
+                    if(!emailPattern.hasMatch(value)){
+                      return 'Please enter a valid email ID';
+                    }
                     return null;
                   },
                 ),
               ),
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 child: TextFormField(
                   controller: passwordController,
                   obscureText: true,
@@ -58,13 +63,20 @@ class _registrationState extends State<registration> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your password';
                     }
+                    if (!passwordPattern.hasMatch(value)){
+                      // return 'Password must a uppercase, a lowercase,\na number and special character';
+                      return value;
+                    }
+                    if(value.length<8){
+                      return 'Password should have at least 8 character ';
+                    }
                     return null;
                   },
                 ),
               ),
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 child: TextFormField(
                   controller: passwordConfirmController,
                   obscureText: true,
@@ -83,7 +95,7 @@ class _registrationState extends State<registration> {
               ),
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 16.0),
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                 child: Center(
                   child: ElevatedButton(
                     onPressed: () {
