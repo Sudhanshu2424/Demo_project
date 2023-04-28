@@ -9,7 +9,7 @@ class PostMessageDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Get Data'),
+          title: const Text('POST Data'),
         ),
         body:Column(
           children: [

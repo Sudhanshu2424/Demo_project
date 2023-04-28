@@ -28,8 +28,7 @@ class DriverProtocols extends StatelessWidget {
           // onTap: () => _onTapItem(context, article[position]),
           ),
           );
-          })
-          ,
+          }),
         )
         );
   }
