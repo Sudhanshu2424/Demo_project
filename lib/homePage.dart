@@ -96,12 +96,14 @@ class HomePage extends StatelessWidget {
                     }
 
                     // debugPrint('Data received: $data');
+                    List<bool> Values = List.filled(users["data"].length, false);
 
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => DriverProtocols(
                             data: users["data"],
+                            values: Values,
                           )),
                     );
 

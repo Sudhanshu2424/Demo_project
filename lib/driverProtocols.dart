@@ -1,36 +1,83 @@
 import 'package:flutter/material.dart';
 
-class DriverProtocols extends StatelessWidget {
-   const DriverProtocols({super.key, required this.data});
+class DriverProtocols extends StatefulWidget {
+   DriverProtocols({super.key, required this.data, required this.values});
 
-  final List<dynamic> data;
-  
+   List<dynamic> data;
+   List<bool> values;
+
+   @override
+   State<DriverProtocols> createState() => _DriverProtocols();
+}
+
+
+class _DriverProtocols extends State<DriverProtocols>{
+  final _formKeyProtocols = GlobalKey<FormState>();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title: const Text('Get Data'),
+          title: const Text('Get Data'),
         ),
-        body:Container(
-          child: ListView.builder(
-          itemCount: data.length,
-          padding: const EdgeInsets.all(2.0),
-          itemBuilder: (context, position) {
-          return Card(
-          child: ListTile(
-          title: Text(
-          '${data[position]["categoryname"]}',
-          style: TextStyle(
-          fontSize: 18.0,
-          color: Colors.black,
-          fontWeight: FontWeight.bold),
+        body:Form(
+          key: _formKeyProtocols,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+            child: Column(
+              children: [
+                ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: widget.data.length,
+                    padding: const EdgeInsets.all(2.0),
+                    itemBuilder: (context, position) {
+                      return SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: <Widget>[
+                              const SizedBox(width: 5),
+                              Text(
+                                widget.data[position]["categoryname"],
+                                style: const TextStyle(fontSize: 15.0),
+                              ),
+                              Checkbox(
+                                checkColor: Colors.greenAccent,
+                                activeColor: Colors.green,
+                                value: widget.values[position],
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    widget.values[position] = value!;
+                                  });
+                                },
+                              ),
+                            ],
+                          )
+                      );
+                    }),
+                Padding(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                  child: Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        for (var position=0; position < widget.data.length; position++) {
+                          widget.data[position]['Response']=widget.values[position];
+                        }
+
+                        // now just send the data to store in database
+
+                      },
+                      child: const Text('Submit Response'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          // onTap: () => _onTapItem(context, article[position]),
-          ),
-          );
-          }),
-        )
-        );
+        ),
+    );
   }
 
 }
