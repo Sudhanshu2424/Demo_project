@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'homePage.dart';
 import 'registration.dart';
+import 'database.dart';
 
 void main() {
   runApp(const MyApp());
