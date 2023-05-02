@@ -23,6 +23,13 @@ class GoogleMapsPageState extends State<GoogleMapsPage>{
       infoWindow: InfoWindow(
         title: "My office"
       )
+    ),
+    Marker(
+        markerId: MarkerId('2'),
+        position: LatLng(28.496381513752272, 77.0888191716012),
+        infoWindow: InfoWindow(
+            title: "McDonald's India"
+        )
     )
   ];
 
